@@ -3,29 +3,44 @@
 @section('title', 'Daftar Buku')
 
 @section('content')
+    <h1>Daftar Buku</h1>
 
-<h2>Daftar Buku</h2>
+    <a href="{{ route('books.create') }}">Tambah Buku</a>
 
-<p>Daftar buku yang tersedia di perpustakaan.</p>
+    <table border="1" cellpadding="10">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Judul</th>
+                <th>Penulis</th>
+                <th>Tahun Terbit</th>
+                <th>Stok</th>
+                <th>Aksi</th>
+            </tr>
+        </thead>
 
-<p>http://127.0.0.1:8000/books</p>
+        <tbody>
+            @foreach ($books as $book)
+                <tr>
+                    <td>{{ $book->id }}</td>
+                    <td>{{ $book->title }}</td>
+                    <td>{{ $book->author }}</td>
+                    <td>{{ $book->year }}</td>
+                    <td>{{ $book->stock }}</td>
+                    <td>
+                        <a href="{{ route('books.show', $book) }}">Detail</a>
+                        <a href="{{ route('books.edit', $book) }}">Edit</a>
 
-@foreach($books as $book)
-
-    <p>ID: {{ $book->id }}</p>
-
-    <h3>{{ $book->title }}</h3>
-
-    <p>Penulis: {{ $book->author }}</p>
-    <p>Tahun: {{ $book->year }}</p>
-    <p>Stok: {{ $book->stock }}</p>
-
-    @if($book->stock > 0)
-        <p>Stok tersedia</p>
-    @else
-        <p>Stok habis</p>
-    @endif
-
-@endforeach
-
+                        <form action="{{ route('books.destroy', $book) }}"
+                              method="POST"
+                              style="display: inline;">
+                            @csrf
+                            @method('DELETE')
+                            <button type="submit">Hapus</button>
+                        </form>
+                    </td>
+                </tr>
+            @endforeach
+        </tbody>
+    </table>
 @endsection

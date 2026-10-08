@@ -3,7 +3,13 @@
 @section('title', 'Detail Buku')
 
 @section('content')
-    <h1>Detail Buku</h1>
+    <h2>Detail Buku</h2>
 
-    <p>ID Buku: {{ $id }}</p>
+    <p>Judul: {{ $book->title }}</p>
+    <p>Penulis: {{ $book->author }}</p>
+    <p>Tahun Terbit: {{ $book->year }}</p>
+    <p>Stok: {{ $book->stock }}</p>
+
+    <a href="{{ route('books.edit', $book) }}">Edit Buku</a>
+    <a href="{{ route('books.index') }}">Kembali ke Daftar Buku</a>
 @endsection
