@@ -23,9 +23,9 @@ class BookController extends Controller
     {
         $validated = $request->validate([
             'title'  => 'required|string|max:255|unique:books,title',
-            'author' => 'required|string|max:255',
+            'author' => 'required|string|max:255|different:title',
             'year'   => 'required|integer|min:1900|max:' . date('Y'),
-            'stock'  => 'required|integer|min:0',
+            'stock'  => 'required|integer|between:0,1000',
         ], [
             'title.required' => 'Judul buku wajib diisi.',
             'title.string' => 'Judul buku harus berupa teks.',
@@ -35,6 +35,7 @@ class BookController extends Controller
             'author.required' => 'Penulis wajib diisi.',
             'author.string' => 'Nama penulis harus berupa teks.',
             'author.max' => 'Nama penulis maksimal 255 karakter.',
+            'author.different' => 'Nama penulis tidak boleh sama dengan judul buku.',
 
             'year.required' => 'Tahun terbit wajib diisi.',
             'year.integer' => 'Tahun terbit harus berupa angka.',
@@ -43,7 +44,7 @@ class BookController extends Controller
 
             'stock.required' => 'Stok wajib diisi.',
             'stock.integer' => 'Stok harus berupa bilangan bulat.',
-            'stock.min' => 'Stok tidak boleh kurang dari 0.',
+            'stock.between' => 'Stok harus antara 0 sampai 1000.',
         ]);
 
         Book::create($validated);
@@ -67,9 +68,9 @@ class BookController extends Controller
     {
         $validated = $request->validate([
             'title' => 'required|string|max:255|unique:books,title,' . $book->id,
-            'author' => 'required|string|max:255',
+            'author' => 'required|string|max:255|different:title',
             'year' => 'required|integer|min:1900|max:' . date('Y'),
-            'stock' => 'required|integer|min:0',
+            'stock' => 'required|integer|between:0,1000',
         ], [
             'title.required' => 'Judul buku wajib diisi.',
             'title.string' => 'Judul buku harus berupa teks.',
@@ -79,6 +80,7 @@ class BookController extends Controller
             'author.required' => 'Penulis wajib diisi.',
             'author.string' => 'Nama penulis harus berupa teks.',
             'author.max' => 'Nama penulis maksimal 255 karakter.',
+            'author.different' => 'Nama penulis tidak boleh sama dengan judul buku.',
 
             'year.required' => 'Tahun terbit wajib diisi.',
             'year.integer' => 'Tahun terbit harus berupa angka.',
@@ -87,7 +89,7 @@ class BookController extends Controller
 
             'stock.required' => 'Stok wajib diisi.',
             'stock.integer' => 'Stok harus berupa bilangan bulat.',
-            'stock.min' => 'Stok tidak boleh kurang dari 0.',
+            'stock.between' => 'Stok harus antara 0 sampai 1000.',
         ]);
 
         $book->update($validated);
