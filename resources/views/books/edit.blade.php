@@ -9,27 +9,77 @@
         @csrf
         @method('PUT')
 
-        <label>Judul Buku</label>
-        <input type="text" name="title" placeholder="Judul buku" value="{{ $book->title }}" required>
+        <div>
+            <label>Judul Buku</label>
+            <input
+                type="text"
+                name="title"
+                placeholder="Judul buku"
+                value="{{ old('title', $book->title) }}"
+                required
+            >
 
-        <br><br>
+            @error('title')
+                <p>{{ $message }}</p>
+            @enderror
+        </div>
 
-        <label>Penulis</label>
-        <input type="text" name="author" placeholder="Penulis" value="{{ $book->author }}" required>
+        <br>
 
-        <br><br>
+        <div>
+            <label>Penulis</label>
+            <input
+                type="text"
+                name="author"
+                placeholder="Penulis"
+                value="{{ old('author', $book->author) }}"
+                required
+            >
 
-        <label>Tahun Terbit</label>
-        <input type="number" name="year" placeholder="Tahun terbit" value="{{ $book->year }}" required>
+            @error('author')
+                <p>{{ $message }}</p>
+            @enderror
+        </div>
 
-        <br><br>
+        <br>
 
-        <label>Stok</label>
-        <input type="number" name="stock" placeholder="Stok" value="{{ $book->stock }}" min="0" required>
+        <div>
+            <label>Tahun Terbit</label>
+            <input
+                type="number"
+                name="year"
+                placeholder="Tahun terbit"
+                value="{{ old('year', $book->year) }}"
+                required
+            >
 
-        <br><br>
+            @error('year')
+                <p>{{ $message }}</p>
+            @enderror
+        </div>
+
+        <br>
+
+        <div>
+            <label>Stok</label>
+            <input
+                type="number"
+                name="stock"
+                placeholder="Stok"
+                value="{{ old('stock', $book->stock) }}"
+                min="0"
+                required
+            >
+
+            @error('stock')
+                <p>{{ $message }}</p>
+            @enderror
+        </div>
+
+        <br>
 
         <button type="submit">Update</button>
+
         <a href="{{ route('books.index') }}">Kembali</a>
     </form>
 @endsection
