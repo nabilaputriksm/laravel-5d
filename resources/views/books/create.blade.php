@@ -3,64 +3,61 @@
 @section('title', 'Tambah Buku')
 
 @section('content')
-    <h1>Tambah Buku</h1>
-
     <form action="{{ route('books.store') }}" method="POST">
         @csrf
 
         <div>
             <label>Judul Buku</label>
-            <input type="text" name="title"
-                placeholder="Masukkan judul buku"
-                value="{{ old('title') }}">
+            <input type="text" name="title" placeholder="Judul Buku" value="{{ old('title', $book->title ?? '') }}">
 
             @error('title')
-                <p style="color: red;">{{ $message }}</p>
+                <p>{{ $message }}</p>
             @enderror
         </div>
-
-        <br>
-
         <div>
             <label>Penulis</label>
-            <input type="text" name="author"
-                placeholder="Masukkan nama penulis"
-                value="{{ old('author') }}">
+            <input type="text" name="author" placeholder="Penulis" value="{{ old('author', $book->author ?? '') }}">
 
             @error('author')
-                <p style="color: red;">{{ $message }}</p>
+                <p>{{ $message }}</p>
             @enderror
         </div>
-
-        <br>
-
         <div>
             <label>Tahun Terbit</label>
-            <input type="number" name="year"
-                placeholder="Masukkan tahun terbit"
-                value="{{ old('year') }}">
+            <input type="number" name="year" placeholder="Tahun Terbit" value="{{ old('year', $book->year ?? '') }}">
 
             @error('year')
-                <p style="color: red;">{{ $message }}</p>
-            @enderror
+                <p>{{ $message }}</p>
+            @enderror   
         </div>
-
-        <br>
-
         <div>
-            <label>Stok</label>
-            <input type="number" name="stock"
-                placeholder="Masukkan jumlah stok"
-                value="{{ old('stock') }}">
+            <label>jumlah Stok Buku</label>
+            <input type="number" name="stock" placeholder="Stok Buku" value="{{ old('stock', $book->stock ?? '') }}">
 
             @error('stock')
-                <p style="color: red;">{{ $message }}</p>
+                <p>{{ $message }}</p>
             @enderror
         </div>
+        <div>
+            <label for="category_id">Kategori</label>
+            <select name="category_id" id="category_id">
+                <option value="">Pilih kategori</option>
 
-        <br>
+                @foreach ($categories as $category)
+                <option
+            value="{{ $category->id }}"
+            @selected(old('category_id') == $category->id)
+            >
+            {{ $category->name }}
+            </option>
+            @endforeach
+            </select>
+            @error('category_id')
+            <p>{{ $message }}</p>
+            @enderror
+
+        </div>
 
         <button type="submit">Simpan</button>
-        <a href="{{ route('books.index') }}">Kembali</a>
     </form>
 @endsection

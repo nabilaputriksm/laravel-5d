@@ -4,19 +4,22 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Book;
+use App\Models\Category;
 
 class BookController extends Controller
 {
     public function index()
     {
-        $books = Book::all();
+        
+        $books = Book::with('category')->get();
 
         return view('books.index', compact('books'));
     }
 
     public function create()
     {
-        return view('books.create');
+        $categories = Category::orderBy('name')->get();
+         return view('books.create', compact('categories'));
     }
 
     public function store(Request $request)
@@ -26,6 +29,7 @@ class BookController extends Controller
             'author' => 'required|string|max:255|different:title',
             'year'   => 'required|integer|min:1900|max:' . date('Y'),
             'stock'  => 'required|integer|between:0,1000',
+            'category_id' => 'required|exists:categories,id',
         ], [
             'title.required' => 'Judul buku wajib diisi.',
             'title.string' => 'Judul buku harus berupa teks.',
@@ -61,7 +65,8 @@ class BookController extends Controller
 
     public function edit(Book $book)
     {
-        return view('books.edit', compact('book'));
+        $categories = Category::orderBy('name')->get();
+        return view('books.edit', compact('book', 'categories'));
     }
 
     public function update(Request $request, Book $book)
@@ -71,6 +76,7 @@ class BookController extends Controller
             'author' => 'required|string|max:255|different:title',
             'year' => 'required|integer|min:1900|max:' . date('Y'),
             'stock' => 'required|integer|between:0,1000',
+            'category' => 'required|exists:categories,id',
         ], [
             'title.required' => 'Judul buku wajib diisi.',
             'title.string' => 'Judul buku harus berupa teks.',
